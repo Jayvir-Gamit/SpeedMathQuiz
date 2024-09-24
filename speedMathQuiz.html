@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Speed Math Quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Speed Math Quiz</h1>
+
+    <div id="buttons">
+        <button id="additionBtn">Addition</button>
+        <button id="subtractionBtn">Subtraction</button>
+        <button id="multiplicationBtn">Multiplication</button>
+        <button id="divisionBtn">Division</button>
+        <button id="percentageBtn">Percentage</button>
+        <!-- <button id="exponentBtn">Exponents</button> -->
+        <button id="squareBtn">Square</button>
+        <button id="cubeBtn">Cube</button>
+    </div>
+
+    <div id="question"></div>
+    <div id="options"></div>
+    <div id="result"></div>
+
+    <button id="nextQuestionBtn">Next Question in <span id="timer"></span></button>
+
+    <script>
+        const operators = [
+            { symbol: '+', operation: (a, b) => a + b },
+            { symbol: '-', operation: (a, b) => a - b },
+            { symbol: '*', operation: (a, b) => a * b },
+            { symbol: '/', operation: (a, b) => a / b },
+            { symbol: '%', operation: (a, b) => (a / 100) * b },
+            // { symbol: '^', operation: (a, b) => Math.pow(a, b) },
+            { symbol: '²', operation: (a) => Math.pow(a, 2) },
+            { symbol: '³', operation: (a) => Math.pow(a, 3) },
+        ];
+
+        let quizData;
+
+        function generateQuestion(operatorIndex) {
+            // console.log(operatorIndex);
+            quizData = {
+                operatorIndex: operatorIndex, // Initialize with the default operator
+                timer: 20,
+                // ... other quiz data if needed
+            };
+
+            const operator = operators[operatorIndex];
+
+            let questionText;
+            let correctAnswer;
+            let num1, num2;
+
+            // Prime
+            function isPrime(num) {
+                if (num <= 1) return false;
+                if (num <= 3) return true;
+                if (num % 2 === 0 || num % 3 === 0) return false;
+                let i = 5;
+                while (i * i <= num) {
+                    if (num % i === 0 || num % (i + 2) === 0) return false;
+                    i += 6;
+                }
+                return true;
+            }
+
+            // Determine if the operator requires two numbers
+            const requiresTwoNumbers = operatorIndex < 5; // Assuming operators 0-4 require two numbers
+
+            if (requiresTwoNumbers) {
+                if (operatorIndex === 4) {
+                    const percentageValues = [50, 33.33, 66.67, 25, 50, 75, 20, 40, 60, 80, 16.67, 83.33, 14.28, 28.57, 42.85, 57.14, 71.42, 85.71, 12.5, 37.5, 62.5, 87.5, 11.11, 22.22, 33.33, 44.44, 55.55, 66.66, 77.77, 88.88, 10, 30, 70, 90];
+                    num1 = percentageValues[Math.floor(Math.random() * percentageValues.length)];
+                    // num2 = Math.floor(Math.random() * 100);
+                    do {
+                        num2 = Math.floor(Math.random() * 300);
+                    } while (isPrime(num2));
+                    questionText = `${num1}${operator.symbol} of ${num2}`;
+                    correctAnswer = Number(operator.operation(num1, num2).toFixed(6));
+                }
+                else if (operatorIndex === 3) {
+                    const baseValues = [5, 0.5, 0.25, 0.125, 125, 25, 11, 22, 33, 44, 55, 9, 99, 999, 9999, 99999, 2, 3, 4, 6, 7, 8, 12, 13, 14, 15]
+                    num2 = baseValues[Math.floor(Math.random() * baseValues.length)];
+                    num1 = Math.floor(Math.random() * 300);
+                    questionText = `${num1} ${operator.symbol} ${num2}`;
+                    correctAnswer = Number(operator.operation(num1, num2).toFixed(6));
+                }
+                else if (operatorIndex === 2) {
+                    const MultipliedValues = [5, 15, 25, 35, 45, 55, 65, 75, 85, 95, 0.5, 1.5, 2.5, 125, 1.25, 12.5, 11, 99, 999, 101, 1001, 75, 175, 275, 375]
+                    num2 = MultipliedValues[Math.floor(Math.random() * MultipliedValues.length)];
+                    num1 = Math.floor(Math.random() * 200);
+                    questionText = `${num1} ${operator.symbol} ${num2}`;
+                    correctAnswer = Number(operator.operation(num1, num2).toFixed(6));
+                }
+                else {
+                    num1 = Math.floor(Math.random() * 100);
+                    num2 = Math.floor(Math.random() * 100);
+                    questionText = `${num1} ${operator.symbol} ${num2}`;
+                    correctAnswer = Number(operator.operation(num1, num2).toFixed(6));
+                    // correctAnswer = operator.operation(num1, num2);
+                }
+                // console.log(correctAnswer);
+
+                // ... generate question text and correct answer for two-number operations
+            } else {
+                if (operatorIndex === 6) {
+                    num1 = Math.floor(Math.random() * 31); // Generate a number between 0 and 30
+                }
+                else {
+                    num1 = Math.floor(Math.random() * 100);
+                }
+                // num1 = Math.floor(Math.random() * 100);
+                questionText = `${num1}${operator.symbol}`;
+                correctAnswer = operator.operation(num1);
+            }
+
+            // questionText = `${num1} ${operator.symbol} ${num2}`;
+            // correctAnswer = operator.operation(num1, num2);
+
+            const questionElement = document.getElementById("question");
+            questionElement.textContent = questionText;
+
+            const optionsElement = document.getElementById("options");
+            optionsElement.innerHTML = "";
+
+            let options = [correctAnswer];
+            for (let i = 0; i < 3; i++) {
+                const randomOption = generateRandomOption(operatorIndex, num1, num2);
+                // const randomOption = generateEquivalentOptions(correctAnswer);
+                if (!options.includes(randomOption)) {
+                    options.push(randomOption);
+                } else {
+                    i--;
+                }
+            }
+
+            options.sort(() => 0.5 - Math.random());
+
+            options = options.map(option => {
+                if (typeof option === 'number' && !Number.isInteger(option)) {
+                    return Number(option.toFixed(6));
+                }
+                return option;
+            });
+
+            options.forEach(option => {
+                const button = document.createElement("button");
+                button.textContent = option;
+                button.addEventListener("click", () => checkAnswer(option, correctAnswer));
+                optionsElement.appendChild(button);
+            });
+
+            quizData.timer = 20; // Reset timer for each new question
+
+            // return options;
+            return {
+                options,
+                questionText,
+                correctAnswer,
+                operatorIndex,
+            };
+        }
+
+
+        // Timer
+        const timerElement = document.getElementById("timer");
+        const timerInterval = setInterval(() => {
+            quizData.timer--;
+            timerElement.textContent = quizData.timer;
+
+            if (quizData.timer === 0) {
+                // Generate a new question when the timer expires
+                generateQuestion(quizData.operatorIndex);
+                const resultElement = document.getElementById("result");
+                resultElement.textContent = "";
+            }
+        }, 1000);
+
+
+
+        function generateRandomOption(operatorIndex, num1, num2) {
+            const operator = operators[operatorIndex];
+            // const range = Math.max(Math.abs(num1), Math.abs(num2)) * 2;
+            const range = 20;
+            const randomOffset = Math.floor(Math.random() * range) - range / 2;
+
+            return operator.operation(num1, num2) + randomOffset;
+        }
+
+
+
+        // function generateEquivalentOptions(correctAnswer) {
+        //     const options = [];
+
+        //     // Generate options within a certain range of the correct answer
+        //     const range = Math.floor(Math.random() * 10) + 1;
+        //     for (let i = 0; i < 3; i++) {
+        //         const randomOffset = Math.floor(Math.random() * range) - range / 2;
+        //         const option = correctAnswer + randomOffset;
+        //         options.push(option);
+        //     }
+
+        //     // Sort options by distance from the correct answer
+        //     options.sort((a, b) => Math.abs(a - correctAnswer) - Math.abs(b - correctAnswer));
+
+        //     return options;
+        // }
+
+
+        // function generatePossibleOptions(correctAnswer) {
+        //     const optionsElement = document.getElementById("options");
+        //     optionsElement.innerHTML = "";
+
+        //     const options = [correctAnswer];
+
+        //     for (let i = 0; i < 3; i++) {
+        //         const randomOption = generateRandomOption(operatorIndex, num1, num2);
+        //         // const randomOption = generateEquivalentOptions(correctAnswer);
+        //         if (!options.includes(randomOption)) {
+        //             options.push(randomOption);
+        //         } else {
+        //             i--;
+        //         }
+        //     }
+
+        //     options.sort(() => 0.5 - Math.random());
+
+        //     options.forEach(option => {
+        //         const button = document.createElement("button");
+        //         button.textContent = option;
+        //         button.addEventListener("click", () => checkAnswer(option, correctAnswer));
+        //         optionsElement.appendChild(button);
+        //     });
+        // }
+
+        function checkAnswer(selectedAnswer, correctAnswer) {
+            const resultElement = document.getElementById("result");
+            resultElement.innerHTML = "";
+
+            if (selectedAnswer === correctAnswer) {
+                resultElement.textContent = "Congratulations! You got the answer right.";
+                resultElement.style.color = "green";
+            } else {
+                resultElement.textContent = "Please select the correct option.";
+                resultElement.style.color = "red";
+            }
+        }
+
+        const buttons = document.querySelectorAll("#buttons button");
+        buttons.forEach((button, index) => {
+            button.addEventListener("click", () => {
+                generateQuestion(index);
+                const resultElement = document.getElementById("result");
+                resultElement.textContent = "";
+            });
+        });
+
+        // const nextQuestionBtn = document.getElementById("nextQuestionBtn");
+        // nextQuestionBtn.addEventListener("click", () => {
+        //     generateQuestion(Math.floor(Math.random() * operators.length));
+        //     const resultElement = document.getElementById("result");
+        //     resultElement.textContent = "";
+        // });
+
+        const nextQuestionBtn = document.getElementById("nextQuestionBtn");
+        nextQuestionBtn.addEventListener("click", () => {
+            const currentOperatorIndex = quizData.operatorIndex; // Assuming you have a quizData object
+            generateQuestion(currentOperatorIndex);
+            const resultElement = document.getElementById("result");
+            resultElement.textContent = "";
+        });
+
+        generateQuestion(Math.floor(Math.random() * operators.length));
+    </script>
+</body>
+
+</html>

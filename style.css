@@ -1,0 +1,108 @@
+/* ... your existing CSS styles ... */
+
+#buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#buttons button {
+    padding: 8px 16px;
+    font-size: 16px;
+    border: none;
+    background-color: #3b3a26;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 700ms, border-radius 700ms;
+}
+
+#buttons button:hover {
+    border-radius: 10px;
+    background-color: #3b3a26bd;
+    transition: background-color 1s, border-radius 1s;
+}
+
+
+#buttons button:active {
+    border-radius: 10px;
+    background-color: #1900ff;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+#question {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+#options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+#nextQuestionBtn {
+    background-color: green;
+    transition: background-color 500ms;
+}
+#nextQuestionBtn:hover {
+    background-color: rgb(3, 162, 3);
+}
+
+#timer {
+    border-radius: 50%;
+    background-color: #3b3a26;
+    padding: 6px;
+    padding-right: 8px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 500ms;
+}
+
+button:hover {
+    background-color: #2a70bb;
+}
+
+#result {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    #question {
+        font-size: 20px;
+    }
+
+    button {
+        padding: 8px 16px;
+        font-size: 16px;
+    }
+}
