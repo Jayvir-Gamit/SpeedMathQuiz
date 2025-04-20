@@ -2,29 +2,40 @@
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speed Math Quiz</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <h1>Speed Math Quiz</h1>
+    <div class="quiz-container">
 
-    <div id="buttons">
-        <button id="additionBtn">Addition</button>
-        <button id="subtractionBtn">Subtraction</button>
-        <button id="multiplicationBtn">Multiplication</button>
-        <button id="divisionBtn">Division</button>
-        <button id="percentageBtn">Percentage</button>
-        <!-- <button id="exponentBtn">Exponents</button> -->
-        <button id="squareBtn">Square</button>
-        <button id="cubeBtn">Cube</button>
+        <div class="hrLine">
+            <h1>Speed Math Quiz</h1>
+        </div>
+
+        <div id="buttons" class="hrLine">
+            <button id="additionBtn">Addition</button>
+            <button id="subtractionBtn">Subtraction</button>
+            <button id="multiplicationBtn">Multiplication</button>
+            <button id="divisionBtn">Division</button>
+            <button id="percentageBtn">Percentage</button>
+            <!-- <button id="exponentBtn">Exponents</button> -->
+            <button id="squareBtn">Square</button>
+            <button id="cubeBtn">Cube</button>
+        </div>
+
+        <div id="question"></div>
+        <div id="options"></div>
+        <div id="timer"></div>
+        <div id="result"></div>
+
+        <div class="hrLineOfNextBtn">
+            <button id="nextQuestionBtn">Next Question</button>
+        </div>
+        <!-- <button id="nextQuestionBtn">Next Question in <span id="timer"></span></button> -->
+
     </div>
-
-    <div id="question"></div>
-    <div id="options"></div>
-    <div id="result"></div>
-
-    <button id="nextQuestionBtn">Next Question in <span id="timer"></span></button>
 
     <script>
         const operators = [
@@ -38,6 +49,7 @@
             { symbol: '³', operation: (a) => Math.pow(a, 3) },
         ];
 
+        let currentQuestionData;
         let quizData;
 
         function generateQuestion(operatorIndex) {
@@ -71,35 +83,209 @@
             const requiresTwoNumbers = operatorIndex < 5; // Assuming operators 0-4 require two numbers
 
             if (requiresTwoNumbers) {
+
                 if (operatorIndex === 4) {
-                    const percentageValues = [50, 33.33, 66.67, 25, 50, 75, 20, 40, 60, 80, 16.67, 83.33, 14.28, 28.57, 42.85, 57.14, 71.42, 85.71, 12.5, 37.5, 62.5, 87.5, 11.11, 22.22, 33.33, 44.44, 55.55, 66.66, 77.77, 88.88, 10, 30, 70, 90];
+
+                    const percentageValues = [25, 50, 75, 20, 40, 60, 80, 33.33, 66.67, 8.33, 7.69, 7.14, 6.66, 6.25, 5.88, 5.55, 5.26, 5, 16.67, 83.33, 14.285714, 28.571429, 42.857143, 57.142858, 71.428571, 85.714286, 12.5, 37.5, 62.5, 87.5, 11.111111, 22.222222, 33.333333, 44.444444, 55.555556, 66.666667, 77.777778, 88.888889, 10, 30, 70, 90];
                     num1 = percentageValues[Math.floor(Math.random() * percentageValues.length)];
-                    // num2 = Math.floor(Math.random() * 100);
-                    do {
-                        num2 = Math.floor(Math.random() * 300);
-                    } while (isPrime(num2));
+
+                    if (num1 === 25 || num1 === 75) {
+                        num2 = 4 * (Math.floor(Math.random() * 250) + 1); // Multiples of 4 (4, 8, ..., 1000)
+                    } else if (num1 === 12.5 || num1 === 37.5 || num1 === 62.5 || num1 === 87.5) {
+                        num2 = 8 * (Math.floor(Math.random() * 100) + 1);
+                    } else if (num1 === 50) {
+                        num2 = 2 * (Math.floor(Math.random() * 500) + 1);
+                    } else if (num1 === 10 || num1 === 30 || num1 === 70 || num1 === 90) {
+                        num2 = 10 * (Math.floor(Math.random() * 100) + 1);
+                    } else if (num1 === 20 || num1 === 40 || num1 === 60 || num1 === 80) {
+                        num2 = 5 * (Math.floor(Math.random() * 100) + 1);
+                    } else if (num1 === 33.33 || num1 === 66.67) {
+                        num2 = 3 * (Math.floor(Math.random() * 300) + 1);
+                    } else if (num1 === 16.67 || num1 === 83.33) {
+                        num2 = 6 * (Math.floor(Math.random() * 300) + 1);
+                    } else if (num1 === 14.285714 || num1 === 28.571429 || num1 === 42.857143 || num1 === 57.142858 || num1 === 71.428571 || num1 === 85.714286) {
+                        num2 = 7 * (Math.floor(Math.random() * 100) + 1);
+                    } else if (num1 === 9.09) {
+                        num2 = 11 * (Math.floor(Math.random() * 100) + 1);
+                    } else if (num1 === 11.111111 || num1 === 22.222222 || num1 === 33.333333 || num1 === 44.444444 || num1 === 55.555556 || num1 === 66.666667 || num1 === 77.777778 || num1 === 88.888889) {
+                        num2 = 9 * (Math.floor(Math.random() * 100) + 1);
+                    } else if (num1 === 8.33) {
+                        num2 = 12 * (Math.floor(Math.random() * 80) + 1);
+                    } else if (num1 === 7.69) {
+                        num2 = 13 * (Math.floor(Math.random() * 70) + 1);
+                    } else if (num1 === 7.14) {
+                        num2 = 14 * (Math.floor(Math.random() * 70) + 1);
+                    } else if (num1 === 6.66) {
+                        num2 = 15 * (Math.floor(Math.random() * 60) + 1);
+                    } else if (num1 === 6.25) {
+                        num2 = 16 * (Math.floor(Math.random() * 60) + 1);
+                    } else if (num1 === 5.88) {
+                        num2 = 17 * (Math.floor(Math.random() * 50) + 1);
+                    } else if (num1 === 5.55) {
+                        num2 = 18 * (Math.floor(Math.random() * 50) + 1);
+                    } else if (num1 === 5.26) {
+                        num2 = 19 * (Math.floor(Math.random() * 50) + 1);
+                    } else if (num1 === 5) {
+                        num2 = 20 * (Math.floor(Math.random() * 50) + 1);
+                    } else {
+                        do {
+                            num2 = Math.floor(Math.random() * 1000);
+                        } while (isPrime(num2));
+                    }
                     questionText = `${num1}${operator.symbol} of ${num2}`;
-                    correctAnswer = Number(operator.operation(num1, num2).toFixed(6));
+                    correctAnswer = Number(operator.operation(num1, num2).toFixed(2));
                 }
                 else if (operatorIndex === 3) {
                     const baseValues = [5, 0.5, 0.25, 0.125, 125, 25, 11, 22, 33, 44, 55, 9, 99, 999, 9999, 99999, 2, 3, 4, 6, 7, 8, 12, 13, 14, 15]
                     num2 = baseValues[Math.floor(Math.random() * baseValues.length)];
-                    num1 = Math.floor(Math.random() * 300);
+                    if (num2 === 11 || num2 === 22 || num2 === 33 || num2 === 44 || num2 === 55 || num2 === 66 || num2 === 77 || num2 === 88) {
+                        // num1 = (Math.floor(Math.random() * 1000) + 1);
+                        let numberString = (Math.floor(Math.random() * 1000) + 1).toString();
+                        const digits = [];
+                        for (let i = 0; i < numberString.length; i++) {
+                            digits.push(Number(numberString.charAt(i)));
+                        }
+                        let firstDigit = digits[0];
+                        let thirdDigit = 9 - digits[0]
+                        let secondDigit = firstDigit + thirdDigit;
+                        let fullNum1 = firstDigit.toString() + secondDigit.toString() + thirdDigit.toString();
+                        num1 = Number(fullNum1);
+                    }
+                    else if (num2 === 9 || num2 === 99 || num2 === 999 || num2 === 9999 || num2 === 99999) {
+                        let rndVal = Math.floor(Math.random() * 300);
+                        if (rndVal <= num2) {
+                            num1 = rndVal;
+                        }
+                        else {
+                            num1 = Math.floor(Math.random() * 300);
+                        }
+                    }
+                    else if (0 < num2 && num2 < 17) {
+                        let rndVal = Math.floor(Math.random() * 300);
+                        if (rndVal > num2) {
+                            num1 = rndVal;
+                        }
+                        else {
+                            num1 = Math.floor(Math.random() * 300);
+                        }
+                    }
+                    else {
+                        num1 = Math.floor(Math.random() * 300);
+                    }
                     questionText = `${num1} ${operator.symbol} ${num2}`;
                     correctAnswer = Number(operator.operation(num1, num2).toFixed(6));
+                    // console.log(correctAnswer);
                 }
                 else if (operatorIndex === 2) {
-                    const MultipliedValues = [5, 15, 25, 35, 45, 55, 65, 75, 85, 95, 0.5, 1.5, 2.5, 125, 1.25, 12.5, 11, 99, 999, 101, 1001, 75, 175, 275, 375]
-                    num2 = MultipliedValues[Math.floor(Math.random() * MultipliedValues.length)];
-                    num1 = Math.floor(Math.random() * 200);
+                    num1 = Math.floor(Math.random() * 1001);
+                    const MultipliedValues = [5, 15, 25, 35, 45, 55, 65, 75, 85, 95, 0.5, 1.5, 2.5, 125, 1.25, 12.5, 11, 99, 999, 101, 1001, 75, 175, 275, 375, 37, 64];
+                    let rndMultipliedValues = MultipliedValues[Math.floor(Math.random() * MultipliedValues.length)];
+                    const Type26 = [11, 21, 31, 41, 51, 61, 71, 81, 91, 101];
+                    let rndType26 = Type26[Math.floor(Math.random() * Type26.length)];
+                    if (num1 === rndMultipliedValues && num1 !== 0) {
+                        if (num1 === 99) {
+                            num2 = Math.floor(Math.random() * 100);
+                        }
+                        else if (num1 === 999) {
+                            let rndVal = Math.floor(Math.random() * 1000);
+                            if (99 < rndVal && rndVal < 1000) {
+                                num2 = rndVal;
+                            }
+                            else {
+                                num2 = Math.floor(Math.random() * 300);
+                            }
+                        }
+                        else if (num1 === 5 || num1 === 15 || num1 === 1001) {
+                            num2 = Math.floor(Math.random() * 1000);
+                        }
+                        else if (num1 === 25) {
+                            num2 = 4 * Math.floor(Math.random() * 250);
+                        }
+                        else if (num1 === 125 || num1 === 1.25 || num1 === 12.5) {
+                            num2 = 8 * Math.floor(Math.random() * 125);
+                        }
+                        else if (num1 === 75 || num1 === 175 || num1 === 275 || num1 === 375) {
+                            num2 = 4 * Math.floor(Math.random() * 25);
+                        }
+                        else if (num1 === 35 || num1 === 45 || num1 === 55 || num1 === 65 || num1 === 85 || num1 === 95) {
+                            num2 = 2 * Math.floor(Math.random() * 50);
+                        }
+                        else if (num1 === 0.5 || num1 === 1.5) {
+                            num2 = 2 * Math.floor(Math.random() * 500);
+                        }
+                        else if (num1 === 101) {
+                            num2 = Math.floor(Math.random() * 100)
+                        }
+                        else if (num1 === 2.5) {
+                            num2 = 4 * Math.floor(Math.random() * 500)
+                        }
+                        else if (num1 === 37 || num1 === 74) {
+                            num2 = 3 * Math.floor(Math.random() * 333)
+                        }
+                        else {
+                            num2 = Math.floor(Math.random() * 10);
+                        }
+                    }
+                    else if (num1 === rndType26) {
+                        num2 = Type26[Math.floor(Math.random() * Type26.length)];
+                    }
+                    else {
+                        if (num1 % 11 === 0 || num1 % 111 === 0 || num1 % 1111 === 0) {
+                            num2 = Math.floor(Math.random() * 10);
+                        }
+                        else if (0 < num1 && num1 < 100) {
+                            if (0 < num1 && num1 < 26) {
+                                num2 = 2 * num1;
+                            }
+                            else if (26 < num1 && num1 < 51) {
+                                num2 = num1 + 1;
+                            }
+                            else if (50 < num1 && num1 < 76) {
+                                num2 = num1 + 4;
+                            } else {
+                                num2 = num1 + 2;
+                            }
+                        }
+                        else {
+                            num2 = Math.floor(Math.random() * 10);
+                        }
+                    }
                     questionText = `${num1} ${operator.symbol} ${num2}`;
-                    correctAnswer = Number(operator.operation(num1, num2).toFixed(6));
+                    correctAnswer = Number(operator.operation(num1, num2).toFixed(2));
+                }
+                else if (operatorIndex === 1) {
+                    num1 = Math.floor(Math.random() * 1000);
+                    let rndVal = 2 * Math.floor(Math.random() * 500);
+                    let revNum = num1.toString().split('').reverse().join('');
+
+                    if (num1 !== 0) {
+                        if (num1 > rndVal) {
+                            num2 = rndVal;
+                        }
+                        else if (num1 > revNum && revNum.toString().split('').reverse().join('') == num1) {
+                            num2 = revNum;
+                        }
+                        else {
+                            num2 = (2 * num1) / 4;
+                        }
+                    }
+                    else {
+                        num2 = (2 * rndVal) / 4;
+                    }
+                    questionText = `${num1} ${operator.symbol} ${num2}`;
+                    correctAnswer = Number(operator.operation(num1, num2).toFixed(2));
+                }
+                else if (operatorIndex === 0) {
+                    num1 = Math.floor(Math.random() * 1000);
+                    num2 = Math.floor(Math.random() * 1000);
+                    questionText = `${num1} ${operator.symbol} ${num2}`;
+                    correctAnswer = Number(operator.operation(num1, num2).toFixed(2));
                 }
                 else {
                     num1 = Math.floor(Math.random() * 100);
                     num2 = Math.floor(Math.random() * 100);
                     questionText = `${num1} ${operator.symbol} ${num2}`;
-                    correctAnswer = Number(operator.operation(num1, num2).toFixed(6));
+                    correctAnswer = Number(operator.operation(num1, num2).toFixed(2));
                     // correctAnswer = operator.operation(num1, num2);
                 }
                 // console.log(correctAnswer);
@@ -112,10 +298,13 @@
                 else {
                     num1 = Math.floor(Math.random() * 100);
                 }
-                // num1 = Math.floor(Math.random() * 100);
+
                 questionText = `${num1}${operator.symbol}`;
                 correctAnswer = operator.operation(num1);
             }
+
+
+            currentQuestionData = { questionText, correctAnswer, operatorIndex }; // new change
 
             // questionText = `${num1} ${operator.symbol} ${num2}`;
             // correctAnswer = operator.operation(num1, num2);
@@ -126,50 +315,61 @@
             const optionsElement = document.getElementById("options");
             optionsElement.innerHTML = "";
 
-            let options = [correctAnswer];
-            for (let i = 0; i < 3; i++) {
-                const randomOption = generateRandomOption(operatorIndex, num1, num2);
-                // const randomOption = generateEquivalentOptions(correctAnswer);
-                if (!options.includes(randomOption)) {
-                    options.push(randomOption);
-                } else {
-                    i--;
+            // let options = [correctAnswer];
+            // for (let i = 0; i < 3; i++) {
+            //     const randomOption = generateRandomOption(operatorIndex, num1, num2);
+            //     // const randomOption = generateEquivalentOptions(correctAnswer);
+            //     if (!options.includes(randomOption)) {
+            //         options.push(randomOption);
+            //     } else {
+            //         i--;
+            //     }
+            // }
+
+
+            const options = [Number(correctAnswer.toFixed(6))]; // Add correct answer
+
+            while (options.length < 4) {
+                const newOption = generateRandomOption(operatorIndex, num1, num2, correctAnswer);
+                if (!options.includes(newOption)) { // Ensure no duplicate options
+                    options.push(newOption);
                 }
             }
 
             options.sort(() => 0.5 - Math.random());
 
-            options = options.map(option => {
-                if (typeof option === 'number' && !Number.isInteger(option)) {
-                    return Number(option.toFixed(6));
-                }
-                return option;
-            });
-
             options.forEach(option => {
                 const button = document.createElement("button");
-                button.textContent = option;
-                button.addEventListener("click", () => checkAnswer(option, correctAnswer));
+                // button.textContent = option;
+                // button.addEventListener("click", () => checkAnswer(option, correctAnswer));
+
+                const displayValue = (operatorIndex === 3 && !Number.isInteger(option)) ? Number(option.toFixed(6)) : Number(option.toFixed(2));
+                button.textContent = displayValue;
+                button.addEventListener("click", () => checkAnswer(Number(displayValue), currentQuestionData.correctAnswer));
+
                 optionsElement.appendChild(button);
             });
 
             quizData.timer = 20; // Reset timer for each new question
 
-            // return options;
             return {
                 options,
                 questionText,
                 correctAnswer,
                 operatorIndex,
             };
+
         }
 
 
+
         // Timer
+
         const timerElement = document.getElementById("timer");
         const timerInterval = setInterval(() => {
             quizData.timer--;
-            timerElement.textContent = quizData.timer;
+            // timerElement.textContent = quizData.timer;
+            updateTimerDisplay();
 
             if (quizData.timer === 0) {
                 // Generate a new question when the timer expires
@@ -180,74 +380,89 @@
         }, 1000);
 
 
-
-        function generateRandomOption(operatorIndex, num1, num2) {
-            const operator = operators[operatorIndex];
-            // const range = Math.max(Math.abs(num1), Math.abs(num2)) * 2;
-            const range = 20;
-            const randomOffset = Math.floor(Math.random() * range) - range / 2;
-
-            return operator.operation(num1, num2) + randomOffset;
+        function updateTimerDisplay() {
+            timerElement.textContent = quizData.timer;
+            if (quizData.timer > 10) {
+                timerElement.style.backgroundColor = "rgba(0, 100, 0, 0.855";
+                timerElement.style.color = "white"; // Optional: Set text color for better contrast
+                timerElement.style.border = "2px solid white";
+            } else if (quizData.timer > 5) {
+                timerElement.style.backgroundColor = "rgba(255, 130, 0, 0.855)";
+                timerElement.style.color = "black"; // Optional: Adjust text color
+                timerElement.style.border = "2px solid black";
+            } else {
+                timerElement.style.backgroundColor = "rgba(240, 0, 0, 0.855)";
+                timerElement.style.color = "white"; // Optional: Set text color
+                timerElement.style.border = "2px solid white";
+            }
+            // timerElement.style.padding = "5px"; // Add some padding for better visibility
+            // timerElement.style.borderRadius = "5px"; // Optional: Add rounded corners
         }
 
 
 
-        // function generateEquivalentOptions(correctAnswer) {
-        //     const options = [];
 
-        //     // Generate options within a certain range of the correct answer
-        //     const range = Math.floor(Math.random() * 10) + 1;
-        //     for (let i = 0; i < 3; i++) {
-        //         const randomOffset = Math.floor(Math.random() * range) - range / 2;
-        //         const option = correctAnswer + randomOffset;
-        //         options.push(option);
-        //     }
+        // To Generate Random Options
 
-        //     // Sort options by distance from the correct answer
-        //     options.sort((a, b) => Math.abs(a - correctAnswer) - Math.abs(b - correctAnswer));
+        function generateRandomOption(operatorIndex, num1, num2, correctAnswer) {
+            const operator = operators[operatorIndex];
+            const range = 20;
 
-        //     return options;
-        // }
+            let attempts = 0;
+            const maxAttempts = 100;
+            let randomOption;
+
+            while (attempts < maxAttempts) {
+                const randomOffset = Math.floor(Math.random() * range) - range / 2;
+                randomOption = Number((operator.operation(num1, num2) + randomOffset).toFixed(6));
+
+                // Ensure the generated option is different from the correct answer
+                if (randomOption !== Number(correctAnswer.toFixed(6))) {
+                    return randomOption;
+                }
+                attempts++;
+            }
+
+            // Fallback if we can't generate a different option within max attempts
+            // This should be a rare case, but we need to avoid infinite loops
+            return Number((correctAnswer + (Math.random() * 10 - 5)).toFixed(6));
+        }
 
 
-        // function generatePossibleOptions(correctAnswer) {
-        //     const optionsElement = document.getElementById("options");
-        //     optionsElement.innerHTML = "";
 
-        //     const options = [correctAnswer];
-
-        //     for (let i = 0; i < 3; i++) {
-        //         const randomOption = generateRandomOption(operatorIndex, num1, num2);
-        //         // const randomOption = generateEquivalentOptions(correctAnswer);
-        //         if (!options.includes(randomOption)) {
-        //             options.push(randomOption);
-        //         } else {
-        //             i--;
-        //         }
-        //     }
-
-        //     options.sort(() => 0.5 - Math.random());
-
-        //     options.forEach(option => {
-        //         const button = document.createElement("button");
-        //         button.textContent = option;
-        //         button.addEventListener("click", () => checkAnswer(option, correctAnswer));
-        //         optionsElement.appendChild(button);
-        //     });
-        // }
+        // To check Correct Answer
 
         function checkAnswer(selectedAnswer, correctAnswer) {
             const resultElement = document.getElementById("result");
             resultElement.innerHTML = "";
+            let formattedCorrectAnswer;
 
-            if (selectedAnswer === correctAnswer) {
+            if (currentQuestionData.operatorIndex === 3 && !Number.isInteger(currentQuestionData.correctAnswer)) {
+                formattedCorrectAnswer = Number(currentQuestionData.correctAnswer.toFixed(6));
+            } else {
+                formattedCorrectAnswer = Number(currentQuestionData.correctAnswer.toFixed(2));
+            }
+
+            if (selectedAnswer === formattedCorrectAnswer) {
                 resultElement.textContent = "Congratulations! You got the answer right.";
                 resultElement.style.color = "green";
+
+                // setTimeout(() => {
+                //     const currentOperatorIndex = quizData.operatorIndex; // Assuming you have a quizData object
+                //     generateQuestion(currentOperatorIndex);
+                //     const resultElement = document.getElementById("result");
+                //     resultElement.textContent = "";
+                //     // console.log("done");
+                // }, 1500);
             } else {
                 resultElement.textContent = "Please select the correct option.";
-                resultElement.style.color = "red";
+                resultElement.style.color = "darkred";
             }
         }
+
+
+
+        // Different Greetings to Right/Wrong answer
 
         const buttons = document.querySelectorAll("#buttons button");
         buttons.forEach((button, index) => {
@@ -258,12 +473,9 @@
             });
         });
 
-        // const nextQuestionBtn = document.getElementById("nextQuestionBtn");
-        // nextQuestionBtn.addEventListener("click", () => {
-        //     generateQuestion(Math.floor(Math.random() * operators.length));
-        //     const resultElement = document.getElementById("result");
-        //     resultElement.textContent = "";
-        // });
+
+
+        // Next Question button event
 
         const nextQuestionBtn = document.getElementById("nextQuestionBtn");
         nextQuestionBtn.addEventListener("click", () => {

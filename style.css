@@ -5,104 +5,421 @@
     justify-content: center;
     gap: 10px;
     margin-bottom: 20px;
+
+    /* border-bottom: 2px solid #ddd;
+    padding-bottom: 20px; */
 }
 
 #buttons button {
     padding: 8px 16px;
     font-size: 16px;
     border: none;
-    background-color: #3b3a26;
+    background-color: #3b3a26ef;
     color: #fff;
     cursor: pointer;
-    transition: background-color 700ms, border-radius 700ms;
+    transition: background-color 300ms ease, border-radius 300ms ease, transform 300ms ease;
+
+    font-size: large;
+    font-weight: 300;
 }
 
 #buttons button:hover {
     border-radius: 10px;
-    background-color: #3b3a26bd;
-    transition: background-color 1s, border-radius 1s;
+    background-color: #2e2d1e;
+    /* transition: background-color 0.3s ease, border-radius 0.3s ease, transform 300ms ease; */
 }
 
 
 #buttons button:active {
-    border-radius: 10px;
-    background-color: #1900ff;
+    transform: scale(0.7);
 }
 
 body {
     font-family: Arial, sans-serif;
     text-align: center;
     margin: 0;
-    padding: 20px;
+    /* padding: 20px; */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.quiz-container {
+    /* background-color: #fff; */
+    background-color: #aa9703cc;
+    padding: 30px;
+    padding-top: 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    height: 85vh;
 }
 
 h1 {
-    font-size: 36px;
+    font-size: 48px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: #000000df;
     margin-bottom: 20px;
+
+    /* border-bottom: 2px solid #ddd;
+    padding-bottom: 40px; */
 }
 
 #question {
-    font-size: 24px;
+    font-size: 38px;
+    line-height: 2;
+    /* font-size: xx-large; */
     margin-bottom: 10px;
 }
 
 #options {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+#options button {
+    font-size: 20px;
+    /* line-height: 1.5; */
+    font-weight: 500;
+    color: #fff;
+    padding: 10px 40px;
+    border: none;
+    background-color: #007bff;
+    cursor: pointer;
+    transition: background-color 300ms;
+}
+
+#options button:hover {
+    background-color: #2a70bb;
 }
 
 #nextQuestionBtn {
-    background-color: green;
-    transition: background-color 500ms;
+    transition: background-color 300ms ease, transform 300ms ease;
+    margin-top: 30px;
+    padding: 10px 0;
+    color: #fff;
+    font-size: larger;
+    width: 50%;
+    box-shadow: 2px 2px 3px rgba(0, 0, 255, 0.3);
+    background-color: rgba(48, 48, 255, 0.815);
 }
+
 #nextQuestionBtn:hover {
-    background-color: rgb(3, 162, 3);
+    background-color: rgba(25, 25, 255, 0.815);
+}
+
+#nextQuestionBtn:active {
+    transform: scaleY(0.9);
 }
 
 #timer {
-    border-radius: 50%;
-    background-color: #3b3a26;
-    padding: 6px;
-    padding-right: 8px;
-}
+    border-radius: 5px;
+    background-color: green;
+    padding: 5px;
 
-button {
-    padding: 10px 20px;
-    font-size: 18px;
-    border: none;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 500ms;
-}
+    border: 2px solid black;
+    margin: 20px;
+    margin-top: 30px;
+    width: 10vw;
+    height: 15vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: xx-large;
 
-button:hover {
-    background-color: #2a70bb;
+    transition: background-color 0.5s, color 0.3s;
+    color: rgba(255, 166, 0, 0.855);
 }
 
 #result {
     font-size: 20px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+
+    font-weight: 800;
+
+    /* border-bottom: 2px solid #ddd;
+    padding-bottom: 20px;
+    margin-bottom: 30px; */
 }
 
-@media screen and (max-width: 768px) {
+.hrLine {
+    border-bottom: 2px solid #ddd;
+    /* padding-bottom: 20px; */
+    width: 100%;
+    padding: 20px;
+}
+
+.hrLineOfNextBtn {
+    border-top: 2px solid #ddd;
+    /* padding: 20px; */
+    width: 100%;
+}
+
+
+
+/* Mobile Devices (up to 600px) */
+@media screen and (max-width: 600px) {
     body {
-        padding: 10px;
+        padding: 0;
+        margin: 0;
     }
 
     h1 {
-        font-size: 28px;
+        font-size: 36px;
+        margin-bottom: 15px;
+    }
+
+    #buttons {
+        flex-direction: column;
+        /* Stack operator buttons vertically */
+        align-items: stretch;
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+
+    #buttons button {
+        padding: 10px 15px;
+        font-size: 1.2em;
+        /* font-size: 0.9em; */
     }
 
     #question {
-        font-size: 20px;
+        font-size: 2em;
+        margin-bottom: 15px;
     }
 
-    button {
-        padding: 8px 16px;
-        font-size: 16px;
+    #options {
+        display: grid;
+        grid-template-columns: auto auto;
+        flex-direction: column;
+        /* align-items: stretch; */
+        /* justify-content: center; */
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+
+    #options button {
+        padding: 80px auto;
+        font-size: 1.2em;
+    }
+
+    #timer {
+        font-size: 1.4em;
+        padding: 8px;
+        margin-bottom: 10px;
+        height: 10vh;
+        width: 10vh;
+        border-radius: 50%;
+        /* margin-top: 5px; */
+    }
+
+    #nextQuestionBtn {
+        padding: 12px 20px;
+        font-size: 1em;
+        margin-top: 20px;
+        width: 80%;
+    }
+
+    .hrLineOfNextBtn {
+        /* width: 100%; */
+        padding: 0 20px;
+        margin: 0;
+    }
+
+    #result {
+        font-size: 1em;
+        margin-top: 10px;
+    }
+
+    .quiz-container {
+        padding: 20px;
+        padding-top: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+    }
+}
+
+/* Small Tablets (601px to 768px) */
+@media screen and (min-width: 601px) and (max-width: 768px) {
+    body {
+        padding: 0;
+        margin: 0;
+    }
+
+    h1 {
+        font-size: 40px;
+        margin-bottom: 20px;
+    }
+
+    #question {
+        font-size: 30px;
+    }
+
+    #options {
+        display: grid;
+        grid-template-columns: auto auto;
+        gap: 10px;
+        margin-bottom: 18px;
+    }
+
+    #options button {
+        padding: 10px auto;
+        font-size: 1.2em;
+    }
+    
+    #timer {
+        font-size: 1.4em;
+        padding: 8px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        height: 10vh;
+        width: 10vh;
+        border-radius: 50%;
+    }
+
+    #buttons {
+        gap: 10px;
+        margin-bottom: 18px;
+    }
+
+    #buttons button {
+        padding: 8px 12px;
+        font-size: 0.8em;
+    }
+
+    #nextQuestionBtn {
+        padding: 12px 20px;
+        font-size: 1.1em;
+    }
+
+    .hrLineOfNextBtn {
+        /* width: 100%; */
+        padding: 0 20px;
+        margin: 0;
+    }
+
+    #result {
+        font-size: 1em;
+        margin-top: 12px;
+    }
+
+    .quiz-container {
+        padding: 20px;
+        padding-top: 0;
+        padding-bottom: 30px;
+        width: 94vw;
+        height: 95vh;
+        border-radius: 0;
+    }
+}
+
+/* Tablets (769px to 992px) - You can adjust these styles as needed */
+@media screen and (min-width: 769px) and (max-width: 992px) {
+    body {
+        padding: 0;
+        margin: 0;
+    }
+
+    h1 {
+        font-size: 40px;
+        margin-bottom: 25px;
+    }
+
+    #question {
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+
+    #timer {
+        font-size: 1.4em;
+        padding: 8px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        height: 10vh;
+        width: 10vh;
+        border-radius: 50%;
+    }
+
+    #options {
+        gap: 10px;
+        margin-bottom: 18px;
+    }
+
+    #options button {
+        padding: 10px auto;
+        font-size: 1.1em;
+    }
+
+    #buttons {
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    #buttons button {
+        padding: 10px 18px;
+        font-size: 1em;
+    }
+
+    .hrLineOfNextBtn {
+        /* width: 100%; */
+        padding: 0 20px;
+        margin: 0;
+    }
+
+    #nextQuestionBtn {
+        padding: 12px 20px;
+        font-size: 1.2em;
+    }
+
+    #result {
+        font-size: 1.1em;
+        margin-top: 15px;
+    }
+
+    .quiz-container {
+        padding: 20px;
+        padding-top: 0;
+        padding-bottom: 20px;
+        width: 94vw;
+        height: 94vh;
+        border-radius: 0;
+    }
+}
+
+/* Desktop (993px and above) - You can add specific desktop enhancements here if needed */
+@media screen and (min-width: 993px) {
+    .quiz-container {
+        max-width: 800px;
+        /* Example: Limit width on larger screens */
+        margin: 30px auto;
+        /* Center the container */
+    }
+
+    #options {
+        /* You might want to display options in a row on larger screens */
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #buttons {
+        justify-content: center;
+    }
+
+    .hrLineOfNextBtn {
+        /* width: 100%; */
+        padding: 0 20px;
+        margin: 0;
     }
 }
