@@ -21,6 +21,7 @@
             <button id="divisionBtn">Division</button>
             <button id="percentageBtn">Percentage</button>
             <button id="tableBtn">Table</button>
+            <button id="doubleBtn">Double</button>
             <!-- <button id="exponentBtn">Exponents</button> -->
             <button id="squareBtn">Square</button>
             <button id="cubeBtn">Cube</button>
@@ -47,6 +48,7 @@
             { symbol: '/', operation: (a, b) => a / b },
             { symbol: '%', operation: (a, b) => (a / 100) * b },
             { symbol: '*', operation: (a, b) => a * b },
+            { symbol: '+', operation: (a, b) => a + b },
             // { symbol: '^', operation: (a, b) => Math.pow(a, b) },
             { symbol: '²', operation: (a) => Math.pow(a, 2) },
             { symbol: '³', operation: (a) => Math.pow(a, 3) },
@@ -83,11 +85,19 @@
             }
 
             // Determine if the operator requires two numbers
-            const requiresTwoNumbers = operatorIndex < 6; // Assuming operators 0-5 require two numbers
+            const requiresTwoNumbers = operatorIndex < 7; // Assuming operators 0-6 require two numbers
 
             if (requiresTwoNumbers) {
 
-                if (operatorIndex === 5) {
+                if (operatorIndex === 6) {
+                    num1 = Math.floor(Math.random() * 100) + 1;
+                    num2 =  num1;
+                    questionText = `Double of ${num1} is `;
+                    correctAnswer = operator.operation(num1, num2);
+                    // correctAnswer = Number(operator.operation(num1, num2).toFixed(2));
+                }
+
+                else if (operatorIndex === 5) {
                     rnd1 = Math.floor(Math.random() * 31);
                     rnd2 = Math.floor(Math.random() * 11);
                     if (rnd1 !== 0 && rnd2 !== 0) {
@@ -99,7 +109,7 @@
                         num2 = rnd2 + 1;
                     }
                     questionText = `${num1} ${operator.symbol} ${num2}`;
-                    correctAnswer = Number(operator.operation(num1, num2).toFixed(0));
+                    correctAnswer = operator.operation(num1, num2);
                 }
 
                 else if (operatorIndex === 4) {
@@ -311,11 +321,11 @@
 
                 // ... generate question text and correct answer for two-number operations
             } else {
-                if (operatorIndex === 6) {
-                    num1 = Math.floor(Math.random() * 31); // Generate a number between 0 and 30
+                if (operatorIndex === 7) {
+                    num1 = Math.floor(Math.random() * 101); // Generate a number between 0 and 100
                 }
                 else {
-                    num1 = Math.floor(Math.random() * 100);
+                    num1 = Math.floor(Math.random() * 31);
                 }
 
                 questionText = `${num1}${operator.symbol}`;
